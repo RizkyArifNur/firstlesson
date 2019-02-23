@@ -2,7 +2,7 @@ import { App } from './src/app'
 import { UserController } from './src/controllers'
 
 const app = new App(
-  [new UserController()],
+  [UserController.routers()],
   3000,
   'mongodb://localhost/first-lesson'
 )

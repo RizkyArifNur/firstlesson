@@ -1,17 +1,16 @@
-import express from 'express'
+import express, { Router } from 'express'
 import { BaseController } from './controllers'
-import { appendFile } from 'fs'
 import { connect } from 'mongoose'
 
 export class App {
   public app: express.Application
   public port: number
 
-  constructor(controllers: BaseController[], port: number, mongoUrl: string) {
+  constructor(routers: Router[], port: number, mongoUrl: string) {
     this.app = express()
     this.port = port
     this.initializeMiddlewares()
-    this.initializeControllers(controllers)
+    this.initializeControllers(routers)
     this.initializeDB(mongoUrl)
   }
 
@@ -19,9 +18,9 @@ export class App {
     this.app.use(express.json())
   }
 
-  private initializeControllers(controllers: BaseController[]) {
-    controllers.forEach(controller => {
-      this.app.use(controller.path, controller.router)
+  private initializeControllers(routers: Router[]) {
+    routers.forEach(router => {
+      this.app.use('/', router)
     })
   }
 
